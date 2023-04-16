@@ -3,6 +3,9 @@ const app = express();
 const bodyParser = require("body-parser");
 const connection = require("./database/database");
 
+//importação do model pergunta
+const Pergunta = require("./database/Pergunta");
+
 
 connection
     .authenticate()
@@ -27,10 +30,18 @@ app.use(bodyParser.json());// permite leitura de dados json
 app.get("/", (req, res) =>{
     // o express mandar a resposta de renderizar o arquivo na pasta "views" 
     // chamado "index"
-    res.render("index.ejs",{
-        // lista de variaveis 
-        
-    });
+
+    //o que for achado no banco irá para dentro da variavel "perguntas" 
+        // raw: true = retorna uma pesquisa "crua/raw"- somente com as infos da tabela do banco de dados
+    Pergunta.findAll({raw: true}).then(perguntas =>{
+      
+        res.render("index.ejs",{
+            // lista de variaveis 
+            perguntas: perguntas
+        });
+    
+    });// equivalente Select
+    
 });
 
 app.get("/perguntas", (req, res) =>{
@@ -43,7 +54,13 @@ app.post("/salvar_respostas", (req, res)=>{
     var titulo = req.body.titulo;
     var descricao = req.body.descricao;
     
-    res.send("titulo: "+ titulo+ "<br>descriçaõ: "+descricao);
+    // o metodo create funciona como um insert 
+    Pergunta.create({
+        titulo: titulo,
+        descricao: descricao
+    }).then(()=>{
+        res.redirect("/")
+    });
     
 });
 

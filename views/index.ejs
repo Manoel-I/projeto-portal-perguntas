@@ -1,6 +1,32 @@
 <%- include ('partials/header.ejs') %>
 <body>
     <%- include('partials/navbar.ejs')%>
+    <div class="container">
+        <hr>
+        <h1>Perguntas</h1>
+        <hr>
+        <a href="/perguntas" class="btn btn-primary">Perguntar</a>
+        <br>
+        <br>
+        <!-- estrutura no EJS-->
+        <% perguntas.forEach(perguntas=> { %>
+            <!--por se tratar de uma variavel precisa do sinal "=" -->
+            
+            <div class="card">
+                <div class="card-body">
+                    <h4>Titulo: </h4> 
+                    <p><%=perguntas.titulo%></p>
+                    <h5>Descrição:</h5>
+                    <p><%=perguntas.descricao%></p>
+                    <div class="card-footer">
+                        <button class="btn btn-primary">Responder</button>
+                    </div>
+                </div>
+            </div>
+            <br>
+        <% }) %>
+
+    </div>
 </body>
 
 <%- include('partials/footer.ejs')%>
