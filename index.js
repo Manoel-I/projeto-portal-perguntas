@@ -33,7 +33,9 @@ app.get("/", (req, res) =>{
 
     //o que for achado no banco irá para dentro da variavel "perguntas" 
         // raw: true = retorna uma pesquisa "crua/raw"- somente com as infos da tabela do banco de dados
-    Pergunta.findAll({raw: true}).then(perguntas =>{
+    Pergunta.findAll({raw: true, order:[
+        ['id','DESC']//ASC = crescente/ DESC '7 '6JH1Kaws4 cft xdf   sd sd            = decrescente
+    ]}).then(perguntas =>{
       
         res.render("index.ejs",{
             // lista de variaveis 
