@@ -66,4 +66,20 @@ app.post("/salvar_respostas", (req, res)=>{
     
 });
 
+// rota para pegar o id digitado na url e redirecionar corretamente 
+app.get("/pergunta/:id", (req,res) =>{
+    var id = req.params.id;
+    Pergunta.findOne({    //findOne() - procura um resultado
+        where : {id : id}  // where - onde na coluna id do banco for igual o id variavel {id : id}
+    }).then(pergunta =>{  // then - tratativa "então"
+        if( pergunta != undefined){
+            res.render("pergunta", { //renderiza a pagina 
+                pergunta : pergunta
+            }); 
+        }else{
+            res.redirect("/"); // redireciona para a pagina
+        }
+    });
+});
+
 app.listen(8080, ()=>{console.log("aplicação funcionando")});
