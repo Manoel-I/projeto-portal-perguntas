@@ -6,6 +6,9 @@ const connection = require("./database/database");
 //importação do model pergunta
 const Pergunta = require("./database/Pergunta");
 
+//import do model resposta
+const Resposta = require("./database/Resposta");
+
 
 connection
     .authenticate()
@@ -73,13 +76,36 @@ app.get("/pergunta/:id", (req,res) =>{
         where : {id : id}  // where - onde na coluna id do banco for igual o id variavel {id : id}
     }).then(pergunta =>{  // then - tratativa "então"
         if( pergunta != undefined){
-            res.render("pergunta", { //renderiza a pagina 
-                pergunta : pergunta
-            }); 
+
+            Resposta.findAll({raw: true, order:[
+                ['id','DESC']//ASC = crescente/ DESC '7 '6JH1Kaws4 cft xdf   sd sd            = decrescente
+            ]}).then(respostas=>{
+                res.render("pergunta", { //renderiza a pagina 
+                    pergunta : pergunta,
+                    respostas : respostas
+                }); 
+            });
+            
+            
         }else{
             res.redirect("/"); // redireciona para a pagina
         }
     });
 });
+
+//rota para salvar as perguntas.
+app.post("/responder", (req, res)=>{
+     var id_pergunta = req.body.id_pergunta;
+     var resposta_text = req.body.resposta_text;
+
+     Resposta.create({
+        id_pergunta: id_pergunta,
+        resposta_text : resposta_text
+     }).then(()=>{
+        res.redirect("/pergunta/"+id_pergunta);
+     });
+});
+
+
 
 app.listen(8080, ()=>{console.log("aplicação funcionando")});
