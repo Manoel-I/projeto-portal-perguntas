@@ -77,9 +77,12 @@ app.get("/pergunta/:id", (req,res) =>{
     }).then(pergunta =>{  // then - tratativa "então"
         if( pergunta != undefined){
 
-            Resposta.findAll({raw: true, order:[
+            Resposta.findAll({raw: true,
+                where : {id_pergunta : id}  
+                ,order:[
                 ['id','DESC']//ASC = crescente/ DESC '7 '6JH1Kaws4 cft xdf   sd sd            = decrescente
             ]}).then(respostas=>{
+                console.log(respostas);
                 res.render("pergunta", { //renderiza a pagina 
                     pergunta : pergunta,
                     respostas : respostas
