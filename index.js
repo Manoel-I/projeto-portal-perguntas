@@ -77,7 +77,9 @@ app.get("/pergunta/:id", (req,res) =>{
     }).then(pergunta =>{  // then - tratativa "então"
         if( pergunta != undefined){
 
-            Resposta.findAll({raw: true, order:[
+            Resposta.findAll({raw: true,
+                where : {id_pergunta : id}  
+                ,order:[
                 ['id','DESC']//ASC = crescente/ DESC '7 '6JH1Kaws4 cft xdf   sd sd            = decrescente
             ]}).then(respostas=>{
                 res.render("pergunta", { //renderiza a pagina 
@@ -104,6 +106,19 @@ app.post("/responder", (req, res)=>{
      }).then(()=>{
         res.redirect("/pergunta/"+id_pergunta);
      });
+});
+
+app.post("/deletar_res", (req, res) =>{
+    var id = req.body.delete_button;
+    var id_pergunta = req.body.id_pergunta;
+    console.log(req.body.id_pergunta);
+    
+    Resposta.destroy({
+        where : {id : id}
+    }).then(()=>{
+        res.redirect("/pergunta/"+id_pergunta);
+    });
+    
 });
 
 
