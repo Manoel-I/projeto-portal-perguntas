@@ -26,7 +26,11 @@
                 <h3>Resposta:</h3>
                 <br>
                 <p><%=respostas.resposta_text%></p>
-                <br>   
+                <br> 
+                <form method="POST" action="/deletar_res">
+                <input type="hidden" name="id_pergunta" value="<%= pergunta.id%>"> 
+                <button type ="submit" class="btn btn-danger" style="position: absolute; right: 90px; top: 107px " name="delete_button" value="<%=respostas.id%>" >Deletar</button>  
+                </form>
             </div>
         </div>
         <br>

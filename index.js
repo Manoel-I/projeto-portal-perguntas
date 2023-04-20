@@ -108,6 +108,19 @@ app.post("/responder", (req, res)=>{
      });
 });
 
+app.post("/deletar_res", (req, res) =>{
+    var id = req.body.delete_button;
+    var id_pergunta = req.body.id_pergunta;
+    console.log(req.body.id_pergunta);
+    
+    Resposta.destroy({
+        where : {id : id}
+    }).then(()=>{
+        res.redirect("/pergunta/"+id_pergunta);
+    });
+    
+});
+
 
 
 app.listen(8080, ()=>{console.log("aplicação funcionando")});
