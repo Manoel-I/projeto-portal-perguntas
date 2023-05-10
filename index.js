@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const connection = require("./database/database");
+const database = require('./database/database_creation');
 
 //importação do model pergunta
 const Pergunta = require("./database/Pergunta");
